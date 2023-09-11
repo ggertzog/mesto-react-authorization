@@ -1,0 +1,21 @@
+.footer {
+    margin: 67px auto 0;
+    padding: 0;
+    padding-bottom: 60px;
+    max-width: 880px;
+}
+
+@media screen and (max-width: 944px) {
+    .footer {
+        max-width: 100%;
+        padding: 0 19px 0;
+        box-sizing: border-box;
+    }
+}
+
+@media screen and (max-width: 724px) {
+    .footer {
+        margin: 48px auto 0;
+        padding-bottom: 36px;
+    }
+}

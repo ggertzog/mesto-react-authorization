@@ -1,0 +1,7 @@
+.elements__button-like-image {
+    width: 22px;
+    height: 19px;
+    margin: auto;
+    padding: 0;
+    object-fit: contain;
+}

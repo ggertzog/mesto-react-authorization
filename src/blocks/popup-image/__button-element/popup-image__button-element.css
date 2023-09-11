@@ -1,0 +1,14 @@
+.popup-image__button-element {
+    width: 32px;
+    height: 32px;
+    margin: auto;
+    padding: 0;
+    z-index: 1;
+}
+
+@media screen and (max-width: 724px) {
+    .popup-image__button-element {
+        width: 20px;
+        height: 20px;
+    }
+}

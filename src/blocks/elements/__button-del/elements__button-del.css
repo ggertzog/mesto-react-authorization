@@ -1,0 +1,19 @@
+.elements__button-del {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 18px;
+    height: 19px;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    transition: opacity .3s linear 0s;
+}
+
+.elements__button-del:hover {
+    opacity: 0.6;
+}

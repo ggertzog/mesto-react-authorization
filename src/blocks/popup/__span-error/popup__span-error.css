@@ -1,0 +1,20 @@
+.popup__span-error {
+    display: block;
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(255, 0, 0, 1);
+    margin: 5px auto 13px;
+    padding: 0;
+    width: 358px;
+    height: 12px;
+    opacity: 0;
+}
+
+@media screen and (max-width: 724px) {
+    .popup__span-error {
+        max-width: 238px;
+        margin: 0 auto 5px;
+    }
+}

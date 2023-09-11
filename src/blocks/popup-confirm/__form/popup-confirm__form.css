@@ -1,0 +1,16 @@
+.popup-confirm__form {
+    /* display: flex;
+    flex-direction: column;
+    margin: auto;
+    position: relative;
+    padding: 34px 0px 0px 0px;
+    gap: 38px; 
+    background-color: #fff;
+    width: 430px;
+    min-height: 181px; 
+    border-radius: 10px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);  */
+    margin: 0;
+    padding: 0;
+}

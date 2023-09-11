@@ -1,0 +1,6 @@
+.popup-image__figure {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 0;
+}

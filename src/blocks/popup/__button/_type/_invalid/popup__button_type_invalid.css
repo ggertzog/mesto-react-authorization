@@ -1,0 +1,8 @@
+.popup__button_type_invalid {
+    opacity: 20%;
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+    transition: none;
+    pointer-events: none;
+}

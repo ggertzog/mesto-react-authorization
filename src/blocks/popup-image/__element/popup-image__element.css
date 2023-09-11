@@ -1,0 +1,8 @@
+.popup-image__element {
+    max-width: 75vw;
+    max-height: 75vh;
+    align-self: center;
+    margin: 0 auto 0;
+    padding: 0;
+    object-fit: cover;
+}

@@ -1,0 +1,10 @@
+.elements__button-like_active {
+    opacity: 100%;
+    background: url(../../../../images/like-black.svg) no-repeat center;
+    width: 22px;
+    height: 19px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
