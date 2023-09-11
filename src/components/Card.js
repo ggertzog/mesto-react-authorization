@@ -1,6 +1,6 @@
 import React from "react";
 import like from "../images/like.svg";
-import musorka from "../images/musorka.svg";
+import trashcan from "../images/musorka.svg";
 
 function Card({card, onCardClick}) {
 
@@ -12,7 +12,7 @@ function Card({card, onCardClick}) {
         <div className="elements__card">
             <img className="elements__image" alt={card.name} src={card.link} onClick={handleCardClick} />
             <button className="elements__button-del" type="button">
-                <img src={musorka} alt="урна" className="elements__button-del-image" />
+                <img src={trashcan} alt="урна" className="elements__button-del-image" />
             </button>
             <div className="elements__description">
                 <h2 className="elements__title">{card.name}</h2>

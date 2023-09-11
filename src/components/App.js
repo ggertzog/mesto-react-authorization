@@ -5,7 +5,6 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 
-
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -38,20 +37,14 @@ function App() {
 
   return (
     <div className="body root">
-      <>
         <Header />
-      </>
-      <>
         <Main 
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleAvatarClick}
           onCardClick={handleCardClick}
         />
-      </>
-      <>
         <Footer />
-      </> 
         <PopupWithForm 
           title="Новое место"
           name="create"
@@ -141,13 +134,12 @@ function App() {
           title="Вы уверены?"
           name="confirm"
           buttonText="Да"
-        ></PopupWithForm>
-      <>
+        >
+        </PopupWithForm>
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}  
         />
-      </>
     </div>
   );
 }
