@@ -1,0 +1,13 @@
+.authorization__container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto 0;
+    padding: 0;
+    max-width: 358px;  
+}
+
+@media screen and (max-width: 724px) {
+    .authorization__container {
+        max-width: 260px;
+    }
+}

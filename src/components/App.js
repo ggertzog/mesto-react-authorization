@@ -1,14 +1,21 @@
 import React, {useEffect, useState} from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 import api from '../utils/Api.js';
+import * as auth from '../utils/auth.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
+import ProtectedRouteElement from './ProtectedRoute.js';
+import Login from './Login.js';
+import Register from './Register.js';
+import InfoTooltip from './InfoTooltip.js';
+
 
 function App() {
 
@@ -18,6 +25,19 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [token, setToken] = useState("");
+  const [loginFailed, setLoginFailed] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+  const [isRegister, setIsRegister] = useState({
+    status: "",
+    massage: ""
+  });
+  const [isOpenTooltip, setIsOpenTooltip] = useState(false);
+  const [isOpenBurgerMenu, setIsOpenBurgerMenu] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.getUserInfo()
@@ -33,7 +53,70 @@ function App() {
             setCards(items);
         })
         .catch(err => console.log(err))
-}, []);
+  }, []);
+
+  //получаем токен из локального хранилища и записываем его в стейт переменную
+  useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    setToken(jwt);
+  }, [token]);
+
+
+  useEffect(() => {
+    if(!token || loggedIn) {
+      return;
+    }
+    auth.getContent(token)
+      .then((user) => {
+        setUserInfo(user.data);
+        setLoggedIn(true);
+        navigate("/");
+      })
+      .catch(err => console.log(err))
+  }, [token, loggedIn, navigate])
+
+  function registration(email, password) {
+    auth.register(email, password)
+      .then(() => {
+        setIsOpenTooltip(true);
+        setIsRegister({
+          status: true,
+          message: "Вы успешно зарегестрировались!"
+        });
+        navigate("/");
+        navigate("/sign-in", {replace: true});
+      })
+      .catch((err) => {
+        setIsOpenTooltip(true);
+        setIsRegister({
+          status: false,
+          message: "Что-то пошло не так! Попробуйте ещё раз."
+        });
+        console.log(err);
+      })
+  }
+
+  function login(email, password) {
+    auth.authorize(email, password)
+      .then((res) => {
+        setToken(res.token);
+        localStorage.setItem("jwt", res.token);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoginFailed("Что-то пошло не так! Попробуйте ещё раз.")
+      });
+  }
+
+  function logOut() {
+    localStorage.removeItem("jwt");
+    setLoggedIn(false);
+    setToken("");
+    setUserInfo({});
+    navigate("/sign-in");
+    setIsOpenBurgerMenu(false);
+  }
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -51,11 +134,18 @@ function App() {
     setSelectedCard(card);
   }
 
+  function openNavBar() {
+    setIsOpenBurgerMenu(true);
+  }
+
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setSelectedCard(null);
+    setIsOpenTooltip(false);
+    setIsOpenBurgerMenu(false);
   }
 
   function handleCardLike(card) {
@@ -103,20 +193,73 @@ function App() {
   }
 
   return (
-    <div className="body root">
-      <CurrentUserContext.Provider value={currentUser}>
-        <Header />
-        <Main 
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="body root">
+        <Header 
+          logOut={logOut} 
+          userInfo={userInfo} 
+          isOpenBurgerMenu={isOpenBurgerMenu}
+          onClose={closeAllPopups}
+          isOpen={openNavBar}
         />
-        <Footer />
-        здесь компонент места
+        <Routes>
+          <Route 
+            path="/" 
+            element= {
+              <ProtectedRouteElement 
+                element={Main}
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelete={handleCardDelete}
+                userInfo={userInfo}
+                loggedIn={loggedIn} 
+                logOut={logOut}
+              />  
+            }
+          />
+          <Route 
+            path="/sign-in" 
+            element={
+              <Login 
+                loggedIn={loggedIn}
+                login={login}
+                errorMassage={loginFailed}
+                onclose={closeAllPopups}
+              />
+            } 
+          />
+          <Route 
+            path="/sign-up" 
+            element={
+              <Register 
+                loggedIn={loggedIn}
+                registration={registration}
+                onClose={closeAllPopups}
+              />
+            } 
+          />
+          <Route
+            path="/*"
+            element={
+              loggedIn ? (
+                <Navigate to="/" replace />
+              ) : (
+                <Navigate to="/sign-in" replace />
+              )
+            }
+          />
+        </Routes>
+        {loggedIn && <Footer />}
+        <InfoTooltip 
+          isRegister={isRegister}
+          isOpen={isOpenTooltip}
+          onClose={closeAllPopups}
+          alt={"Статус"}
+        />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
@@ -142,8 +285,8 @@ function App() {
           card={selectedCard}
           onClose={closeAllPopups}  
         />
-      </CurrentUserContext.Provider>
-    </div>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

@@ -1,0 +1,16 @@
+.header__email {
+    color: #fff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 100%;
+    transition: 0.5s opacity linear 0s;
+}
+
+.header__email:hover {
+    opacity: 60%;
+}

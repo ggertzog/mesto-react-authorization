@@ -1,0 +1,17 @@
+.authorization__title {
+    color: #fff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: normal;
+    text-align: center;
+    padding: 0;
+    margin: 60px auto 50px;
+}
+
+@media screen and (max-width: 320px) {
+    .authorization__title {
+        font-size: 20px;
+        margin: 40px auto 40px;
+    }
+}

@@ -1,7 +1,9 @@
 .elements__card {
     position: relative;
-    max-width: 282px;
+    width: 282px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
 }

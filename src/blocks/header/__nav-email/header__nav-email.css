@@ -1,0 +1,9 @@
+.header__nav-email {
+    color: #fff;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    padding: 0;
+    margin: 40px auto 0;
+}

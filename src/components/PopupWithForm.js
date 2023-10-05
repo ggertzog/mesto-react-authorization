@@ -1,5 +1,5 @@
 import React from "react";
-import closeButton from '../images/Close-Icon.svg'
+import closeButton from '../images/Close-Icon.svg';
 
 function PopupWithForm({name, title, buttonText, children, isOpen, onClose, onSubmit}) {
     return (

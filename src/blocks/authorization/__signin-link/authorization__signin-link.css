@@ -1,0 +1,23 @@
+.authorization__signin-link {
+    text-decoration: none;
+    font-family: "Inter", Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    color: #fff;
+    padding: 0;
+    margin: 15px auto 0;
+    cursor: pointer;
+    opacity: 100%;
+    transition: 0.5s opacity linear 0s;
+}
+
+.authorization__signin-link:hover {
+    opacity: 60%;
+}
+
+@media screen and (max-width: 320px) {
+    .authorization__signin-link {
+        margin-top: 20px;
+    }
+}
