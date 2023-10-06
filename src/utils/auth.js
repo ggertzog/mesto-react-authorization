@@ -1,52 +1,41 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+import { checkResponse } from "./checkResponse";
+
+const BASE_URL = 'https://auth.nomoreparties.co';
+
+function _request(url, method, body, token) {
+
+    const headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+    };
+
+    if (token) {
+        headers.Authorization = `Bearer ${token}`;
+    };
+
+    const options = {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null,
+    };
+    
+    return fetch(url, options)
+            .then(checkResponse)
+            .catch(error => {
+                console.error(error);
+                throw error;
+            });
+}
+
 
 export const register = ({email, password}) => {
-    return fetch(`${BASE_URL}/signup`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, password})
-    })
-    .then((res) => {
-        if(res.ok) {
-            return res.json();
-        }
-    })
-    .catch((err) => console.log(err))
+    return _request(`${BASE_URL}/signup`, "POST", {email, password}, null);
 }
 
 export const authorize = ({email, password}) => {
-    return fetch(`${BASE_URL}/signin`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({email, password})
-    })
-    .then((res) => {
-        if(res.ok) {
-            return res.json();
-        }
-    })
-    .catch(err => console.log(err))
+    return _request(`${BASE_URL}/signin`, "POST", {email, password}, null);
 }
 
 export const getContent = (token) => {
-    return fetch(`${BASE_URL}/users/me`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
-    })
-    .then((res) => {
-        if(res.ok) {
-            return res.json();
-        }
-    })
-    .catch(err => console.log(err))
+    return _request(`${BASE_URL}/users/me`, "GET", null, token);
 }

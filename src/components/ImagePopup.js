@@ -1,7 +1,11 @@
 import React from "react";
 import closeButton from "../images/Close-Icon.svg";
+import { usePopupClose } from "../hooks/usePopupClose";
 
 function ImagePopup({card, onClose}) {
+    
+    usePopupClose(card?.link, onClose);
+
     return(
         <div className={`popup popup-image ${card ? "popup_opened" : ""}`}>
             <figure className="popup-image__figure">

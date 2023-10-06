@@ -2,11 +2,11 @@ import React, {useContext} from "react";
 import Card from "./Card";
 import profileButton from '../images/button.svg';
 import cardButton from '../images/button-plus.svg';
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentContext } from "../contexts/CurrentContext";
 
 function Main({cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete}) {
 
-    const currentUserInfo = useContext(CurrentUserContext);
+    const currentUserInfo = useContext(CurrentContext);
 
     return(
         <main className="content">

@@ -1,19 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { CurrentContext } from '../contexts/CurrentContext.js';
+
+import api from '../utils/Api.js';
+
+import ProtectedRouteElement from './ProtectedRoute.js';
+
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
+
+import * as auth from '../utils/auth.js'
+import Login from './Login.js';
+import Register from './Register.js';
+
+
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
-import api from '../utils/Api.js';
-import * as auth from '../utils/auth.js'
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
-import ProtectedRouteElement from './ProtectedRoute.js';
-import Login from './Login.js';
-import Register from './Register.js';
 import InfoTooltip from './InfoTooltip.js';
 
 
@@ -43,8 +49,9 @@ function App() {
     api.getUserInfo()
       .then((data) => {
         setCurrentUser(data);
+        closeAllPopups();
       })
-      .catch(err => console.log(err));
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -52,7 +59,7 @@ function App() {
         .then((items) => {
             setCards(items);
         })
-        .catch(err => console.log(err))
+        .catch(console.error)
   }, []);
 
   //получаем токен из локального хранилища и записываем его в стейт переменную
@@ -72,13 +79,12 @@ function App() {
         setLoggedIn(true);
         navigate("/");
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }, [token, loggedIn, navigate])
 
   function registration(email, password) {
     auth.register(email, password)
       .then(() => {
-        setIsOpenTooltip(true);
         setIsRegister({
           status: true,
           message: "Вы успешно зарегестрировались!"
@@ -87,12 +93,14 @@ function App() {
         navigate("/sign-in", {replace: true});
       })
       .catch((err) => {
-        setIsOpenTooltip(true);
         setIsRegister({
           status: false,
           message: "Что-то пошло не так! Попробуйте ещё раз."
         });
-        console.log(err);
+        console.error(err);
+      })
+      .finally(() => {
+        setIsOpenTooltip(true);
       })
   }
 
@@ -104,7 +112,7 @@ function App() {
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setLoginFailed("Что-то пошло не так! Попробуйте ещё раз.")
       });
   }
@@ -138,7 +146,6 @@ function App() {
     setIsOpenBurgerMenu(true);
   }
 
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -154,7 +161,7 @@ function App() {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }
 
   function handleCardDelete(card) {
@@ -162,7 +169,7 @@ function App() {
       .then(() => {
         setCards((cards) => cards.filter((item) => item._id !== card._id));
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }
 
   function handleUpdateUser(items) {
@@ -171,7 +178,7 @@ function App() {
         setCurrentUser(res);
         closeAllPopups();
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }
 
   function handleUpdateAvatar(items) {
@@ -180,7 +187,7 @@ function App() {
         setCurrentUser(avatar);
         closeAllPopups();
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }
 
   function handleAddPlaceSubmit(items) {
@@ -189,11 +196,11 @@ function App() {
         setCards([newCard, ...cards]);
         closeAllPopups();
       })
-      .catch(err => console.log(err))
+      .catch(console.error)
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentContext.Provider value={currentUser}>
       <div className="body root">
         <Header 
           logOut={logOut} 
@@ -228,7 +235,7 @@ function App() {
                 loggedIn={loggedIn}
                 login={login}
                 errorMassage={loginFailed}
-                onclose={closeAllPopups}
+                onClose={closeAllPopups}
               />
             } 
           />
@@ -286,7 +293,7 @@ function App() {
           onClose={closeAllPopups}  
         />
       </div>
-    </CurrentUserContext.Provider>
+    </CurrentContext.Provider>
   );
 }
 

@@ -2,8 +2,12 @@ import React from "react"
 import closeButton from '../images/Close-Icon.svg';
 import Ok from '../images/Ok.svg';
 import Err from '../images/Err.svg'
+import { usePopupClose } from "../hooks/usePopupClose";
 
 function InfoTooltip({ onClose, isOpen, isRegister }) {
+
+    usePopupClose(isOpen, onClose);
+    
     return (
         <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
             <div className="popup__container popup-tooltip">

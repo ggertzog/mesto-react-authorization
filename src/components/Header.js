@@ -18,8 +18,6 @@ function Header({userInfo, logOut, isOpenBurgerMenu, isOpen, onClose}) {
     }
   }, []);
 
-  console.dir(isOpenBurgerMenu);  
-
     return (
       <>
         {isOpenBurgerMenu ? (
@@ -65,7 +63,7 @@ function Header({userInfo, logOut, isOpenBurgerMenu, isOpen, onClose}) {
                     (
                     <>
                       <button className='header__close-button'>  
-                        <img className='header__button-image' src={closeIcon} onClick={onClose} />
+                        <img className='header__button-image' alt='крестик' src={closeIcon} onClick={onClose} />
                       </button>
                     </>) :
                     (<button className='header__nav-button' onClick={isOpen}>☰</button>)

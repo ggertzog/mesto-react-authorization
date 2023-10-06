@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import like from "../images/like.svg";
 import trashcan from "../images/musorka.svg";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentContext } from "../contexts/CurrentContext";
 
 function Card({card, onCardClick, onCardLike, onCardDelete}) {
 
-    const currentUserInfo = useContext(CurrentUserContext);
+    const currentUserInfo = useContext(CurrentContext);
     const isOwn = card.owner._id === currentUserInfo._id;
     const isLiked = card.likes.some(i => i._id === currentUserInfo._id);
     const cardLikeButtonClassName = (`elements__button-like ${isLiked && "elements__button-like_active"}`);
